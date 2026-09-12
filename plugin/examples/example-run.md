@@ -63,7 +63,7 @@ began, rather than being caught in review after the code existed.
 This is the point of writing the contract first: the conflict between DECOMPOSITION and
 DO-NOT was visible on the page, before it was visible in a diff.
 
-See the [multi-persona-review-panel](https://github.com/vivekv77/multi-persona-review-panel-skill)
+See the [multi-persona-review-panel](https://github.com/FortunaTerra-Group/multi-persona-review-panel-skill)
 example for the pre-push review of the resulting spine PR, and the
-[usability-heuristic-review](https://github.com/vivekv77/usability-heuristic-review-skill)
+[usability-heuristic-review](https://github.com/FortunaTerra-Group/usability-heuristic-review-skill)
 example for an audit of the wave-2 dashboard panel this contract produced.
