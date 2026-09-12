@@ -14,7 +14,7 @@ caught before any code existed.
 
 ## Install
 
-Copy `plugin/skills/governed-build-loop/` into your project's `.claude/skills/`, or install it as a plugin via the Claude Code plugin directory (manifest: `plugin/.claude-plugin/plugin.json`).
+Copy `plugin/skills/governed-build-loop/` into your project's `.claude/skills/`, or load the `plugin/` directory as a plugin for one session: `claude --plugin-dir ./goal-contract/plugin` (manifest: `plugin/.claude-plugin/plugin.json`).
 
 ## License
 
