@@ -14,7 +14,7 @@ caught before any code existed.
 
 ## Install
 
-Copy `plugin/skills/governed-build-loop/` into your project's `.claude/skills/`, or load the `plugin/` directory as a plugin for one session: `claude --plugin-dir ./goal-contract/plugin` (manifest: `plugin/.claude-plugin/plugin.json`).
+Copy `plugin/skills/governed-build-loop/` into your project's `.claude/skills/`, or install it from FortunaTerra's plugin marketplace: `claude plugin marketplace add FortunaTerra-Group/claude-plugins` then `claude plugin install governed-build-loop@fortunaterra` (manifest: `plugin/.claude-plugin/plugin.json`).
 
 ## License
 
