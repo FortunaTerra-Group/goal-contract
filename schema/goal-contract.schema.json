@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/FortunaTerra-Group/goal-contract/schema/goal-contract.schema.json",
+  "title": "Goal Contract (minimal)",
+  "type": "object",
+  "required": [
+    "id",
+    "goal",
+    "predicates",
+    "pinPolicy",
+    "budget",
+    "evidence",
+    "qualityAxes",
+    "gate"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "goal": {
+      "type": "string",
+      "minLength": 40,
+      "description": "One paragraph. Outcome, for whom. Not the implementation."
+    },
+    "predicates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "metric",
+          "operator",
+          "value",
+          "unit",
+          "mustHave"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "metric": {
+            "type": "string"
+          },
+          "operator": {
+            "type": "string",
+            "enum": [
+              "==",
+              "!=",
+              ">=",
+              "<=",
+              ">",
+              "<"
+            ]
+          },
+          "value": {
+            "type": [
+              "number",
+              "boolean"
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "count",
+              "pct",
+              "ms",
+              "bool",
+              "usd"
+            ]
+          },
+          "mustHave": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "pinPolicy": {
+      "type": "object",
+      "required": [
+        "cost",
+        "scope",
+        "time"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "cost": {
+          "enum": [
+            "pinned",
+            "floating"
+          ]
+        },
+        "scope": {
+          "enum": [
+            "pinned",
+            "floating"
+          ]
+        },
+        "time": {
+          "enum": [
+            "pinned",
+            "floating"
+          ]
+        }
+      },
+      "description": "Exactly one of the three is 'floating' (enforced by oneOf).",
+      "oneOf": [
+        {
+          "properties": {
+            "cost": {
+              "const": "floating"
+            },
+            "scope": {
+              "const": "pinned"
+            },
+            "time": {
+              "const": "pinned"
+            }
+          }
+        },
+        {
+          "properties": {
+            "cost": {
+              "const": "pinned"
+            },
+            "scope": {
+              "const": "floating"
+            },
+            "time": {
+              "const": "pinned"
+            }
+          }
+        },
+        {
+          "properties": {
+            "cost": {
+              "const": "pinned"
+            },
+            "scope": {
+              "const": "pinned"
+            },
+            "time": {
+              "const": "floating"
+            }
+          }
+        }
+      ]
+    },
+    "budget": {
+      "type": "object",
+      "required": [
+        "amount",
+        "unit"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number"
+        },
+        "unit": {
+          "enum": [
+            "usd",
+            "agent-hours",
+            "tokens"
+          ]
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "description": "One entry per must-have predicate id. The pairing (every must-have has evidence; every evidence names a real predicate) is checked by the gate, not by this schema.",
+      "items": {
+        "type": "object",
+        "required": [
+          "predicate",
+          "artifact"
+        ],
+        "properties": {
+          "predicate": {
+            "type": "string"
+          },
+          "artifact": {
+            "type": "string",
+            "description": "Path or query that proves it. Never 'agent reports success'."
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "qualityAxes": {
+      "type": "object",
+      "required": [
+        "accuracy",
+        "reasonableness",
+        "liveness"
+      ],
+      "properties": {
+        "accuracy": {
+          "$ref": "#/$defs/axis"
+        },
+        "reasonableness": {
+          "$ref": "#/$defs/axis"
+        },
+        "liveness": {
+          "$ref": "#/$defs/axis"
+        }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "required": [
+        "kind",
+        "who"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "independent-loop",
+            "human-review",
+            "script"
+          ]
+        },
+        "who": {
+          "type": "string",
+          "description": "Not the author."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "axis": {
+      "type": "object",
+      "required": [
+        "state"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "asserted",
+            "unassessed"
+          ]
+        },
+        "detail": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

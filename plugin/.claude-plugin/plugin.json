@@ -1,0 +1,11 @@
+{
+  "name": "governed-build-loop",
+  "description": "Write a goal contract before touching code: goal + acceptance predicates + pin policy + budget, a spine/slices/waves decomposition, a do-not list, an evidence contract, and an independent review of the contract itself before implementation.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Vivek Iyer",
+    "url": "https://github.com/FortunaTerra-Group"
+  },
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/FortunaTerra-Group/goal-contract"
+}
