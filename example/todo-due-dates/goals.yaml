@@ -1,0 +1,27 @@
+# Worked example — a to-do app gains due dates.
+# Written BEFORE any code. In a real use, reviewed by at least one person who is not the implementer.
+id: todo-due-dates
+goal: >
+  A user of the to-do app can give any item a due date, sees overdue items first when
+  the list opens, and is never shown an item as overdue in one view and not-overdue in
+  another. Items without a due date behave exactly as they do today.
+predicates:
+  - { id: set-date,        name: "A due date can be set and cleared on any item",                        metric: due_date_settable_and_clearable, operator: "==", value: true, unit: bool,  mustHave: true }
+  - { id: overdue-first,   name: "Overdue items sort above all others when the list opens",             metric: overdue_items_shown_first,       operator: "==", value: true, unit: bool,  mustHave: true }
+  - { id: one-truth,       name: "Overdue is computed in exactly one place (server); no client recomputes it", metric: overdue_writers,           operator: "==", value: 1,    unit: count, mustHave: true }
+  - { id: no-regression,   name: "GUARD: items without a due date are unchanged across the 212 baseline tests", metric: existing_test_regressions, operator: "==", value: 0,    unit: count, mustHave: true }
+  - { id: fallback,        name: "An item whose due date is malformed is shown as 'no due date', never hidden, never crashes", metric: malformed_date_handled, operator: "==", value: true, unit: bool, mustHave: true }
+  - { id: p95-list,        name: "List open stays under 300 ms at p95 with 1,000 items",                metric: list_open_p95,                   operator: "<=", value: 300,  unit: ms,    mustHave: false }
+pinPolicy: { cost: pinned, scope: pinned, time: floating }
+budget: { amount: 6, unit: agent-hours }   # cost is pinned: 6 agent-hours is the hard line; time floats
+evidence:
+  - { predicate: set-date,      artifact: "tests/due-date.set-clear.test.ts (RED before implementation)" }
+  - { predicate: overdue-first, artifact: "tests/list-order.overdue-first.test.ts + snapshot sequence: list-open-01..03.png" }
+  - { predicate: one-truth,     artifact: "tests/overdue.single-writer.test.ts — static check: one server module computes overdue; the client bundle contains no date-vs-now comparison" }
+  - { predicate: no-regression, artifact: "full existing suite: the same set of 212 passing test ids as the baseline commit; none skipped or removed" }
+  - { predicate: fallback,      artifact: "tests/due-date.malformed.test.ts — the default-scenario test, written first" }
+qualityAxes:
+  accuracy:       { state: asserted,   detail: "one-truth + overdue-first are checked by test and by grep, not by reading the diff" }
+  reasonableness: { state: asserted,   detail: "e.g. two non-author reviewers read this file before the branch opened and demoted p95-list to should-have" }
+  liveness:       { state: unassessed, detail: "no production traffic yet; this axis is a stated gap, not a pass" }
+gate: { kind: human-review, who: "a reviewer who did not write the code re-evaluates every must-have from the evidence column" }
