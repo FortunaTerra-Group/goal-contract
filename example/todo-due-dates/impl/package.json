@@ -1,0 +1,12 @@
+{
+  "name": "todo-due-dates-example",
+  "private": true,
+  "type": "module",
+  "description": "Minimal toy TodoList used to demonstrate the goal-contract RED/GREEN cycle for the todo-due-dates example. Not a library, not for reuse.",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}

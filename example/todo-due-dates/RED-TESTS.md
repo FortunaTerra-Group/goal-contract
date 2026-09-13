@@ -1,5 +1,13 @@
 # RED tests, written from the predicates, before implementation
 
+> The test files below and both runs were actually implemented and executed, against a
+> minimal toy `TodoItem`/`TodoList` module in [`impl/`](./impl/). Model: Claude Sonnet 5.
+> Date: 2026-09-13. Raw run output: [`RUN-1-RED.md`](./RUN-1-RED.md) (before
+> implementation, real failures) and [`RUN-2-GREEN.md`](./RUN-2-GREEN.md) (after,
+> real passes). The `no-regression` row is a guard on a pre-existing baseline suite
+> that this fresh toy module doesn't have; `RUN-2-GREEN.md` says why and what the
+> same check looks like on a real service.
+
 Each must-have predicate becomes one failing test. The test names are the predicate ids so the gate can map evidence back to the contract without reading the code.
 
 | Predicate | Test | Fails before implementation because |
