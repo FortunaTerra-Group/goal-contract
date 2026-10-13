@@ -16,6 +16,14 @@ caught before any code existed.
 
 Copy `plugin/skills/governed-build-loop/` into your project's `.claude/skills/`, or install it from FortunaTerra's plugin marketplace: `claude plugin marketplace add FortunaTerra-Group/claude-plugins` then `claude plugin install governed-build-loop@fortunaterra` (manifest: `plugin/.claude-plugin/plugin.json`).
 
+## What this plugin runs and sends
+
+The plugin directory (`plugin/`) holds one skill file (`skills/governed-build-loop/SKILL.md`), a worked example (`examples/example-run.md`) and a manifest (`.claude-plugin/plugin.json`). It contains no hooks, no MCP servers, no scripts, no binaries and no executable code, so installing it executes nothing. The other directories in this repository (`schema/`, and `example/`, which has a small TypeScript project used as a demonstration) are not part of the installed plugin.
+
+When you invoke the skill, it instructs the agent to write a four-section contract (GOAL, CONTEXT, DECOMPOSITION, DO-NOT) before editing code, to get an independent read of that contract from a person or a fresh agent instance, and only then to implement. The skill does not name any command to run, does not specify where the contract is saved, and does not tell the agent to write any particular file; the contract can be returned in the conversation or saved wherever you ask.
+
+The plugin makes no network requests of its own, has no server or telemetry, and sends nothing to FortunaTerra. Content you share in the session is processed by the model, and by any fresh agent instance you use for the review, as any other session content is, under your Claude Code settings.
+
 ## License
 
 Apache-2.0, with the rest of this repository. Originally drafted 2026-09-05 as `vivekv77/governed-build-loop-skill` (MIT); consolidated here 2026-09-12.
